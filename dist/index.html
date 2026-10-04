@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#05060F" />
+  <title>星际突围：霓虹空域</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+  <script type="module" crossorigin src="./assets/index-Bmzzf_vT.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CscejU59.css">
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <!-- 游戏内暂停按钮（移动端友好） -->
+    <button id="btn-pause" class="icon-btn" aria-label="暂停">II</button>
+
+    <!-- 主菜单 -->
+    <section id="screen-menu" class="screen">
+      <div class="panel menu-panel">
+        <div class="logo-cn">星际突围</div>
+        <h1 class="logo-en">NEON SKY&nbsp;STRIKER</h1>
+        <div class="logo-sub">霓虹空域 · 弹幕突击</div>
+        <button class="btn primary" id="btn-start">开 始 行 动</button>
+        <button class="btn ghost" id="btn-settings-menu">设 置</button>
+        <div class="high-line">历史最高 <span id="menu-high">0</span></div>
+        <div class="tips">拖动 / WASD 移动 · 自动开火 · 空格或双击释放清屏炸弹</div>
+      </div>
+    </section>
+
+    <!-- 设置 -->
+    <section id="screen-settings" class="screen hidden">
+      <div class="panel">
+        <h2 class="panel-title">SETTINGS · 设置</h2>
+        <label class="row">
+          <span>音效音量</span>
+          <input type="range" id="set-sfx" min="0" max="1" step="0.05" />
+        </label>
+        <label class="row">
+          <span>音乐音量</span>
+          <input type="range" id="set-bgm" min="0" max="1" step="0.05" />
+        </label>
+        <label class="row switch-row">
+          <span>屏幕震动</span>
+          <input type="checkbox" id="set-shake" />
+        </label>
+        <label class="row switch-row">
+          <span>自动开火</span>
+          <input type="checkbox" id="set-autofire" />
+        </label>
+        <div class="help-box">
+          <p>桌面：WASD / 方向键移动，空格炸弹，P 或 Esc 暂停</p>
+          <p>移动端：按住屏幕拖动战机（触点自动偏移），双击屏幕放炸弹</p>
+        </div>
+        <button class="btn primary" id="btn-settings-back">返 回</button>
+      </div>
+    </section>
+
+    <!-- 暂停 -->
+    <section id="screen-pause" class="screen hidden">
+      <div class="panel small-panel">
+        <h2 class="panel-title">PAUSED · 暂停</h2>
+        <button class="btn primary" id="btn-resume">继 续</button>
+        <button class="btn ghost" id="btn-restart">重 新 出 击</button>
+        <button class="btn ghost" id="btn-settings-pause">设 置</button>
+        <button class="btn ghost" id="btn-menu">回 主 菜 单</button>
+      </div>
+    </section>
+
+    <!-- 升级三选一 -->
+    <section id="screen-levelup" class="screen hidden">
+      <div class="levelup-box">
+        <h2 class="levelup-title"><span class="lucide"></span>系统升级 · LEVEL UP</h2>
+        <div class="cards" id="upgrade-cards"></div>
+        <div class="levelup-hint">点击卡牌 或 按 1 / 2 / 3 选择</div>
+      </div>
+    </section>
+
+    <!-- 失败结算 -->
+    <section id="screen-gameover" class="screen hidden">
+      <div class="panel">
+        <h2 class="result-title fail">MISSION FAILED</h2>
+        <div class="result-sub">战机信号丢失</div>
+        <div class="score-big" id="go-score">0</div>
+        <div class="stat-grid">
+          <div><b id="go-kills">0</b><span>击坠</span></div>
+          <div><b id="go-graze">0</b><span>擦弹</span></div>
+          <div><b id="go-combo">0</b><span>最高连击</span></div>
+          <div><b id="go-stage">-</b><span>到达区域</span></div>
+        </div>
+        <div class="high-line">历史最高 <span id="go-high">0</span></div>
+        <button class="btn primary" id="btn-retry">重 新 出 击</button>
+        <button class="btn ghost" id="btn-gameover-menu">回 主 菜 单</button>
+      </div>
+    </section>
+
+    <!-- 胜利结算 -->
+    <section id="screen-victory" class="screen hidden">
+      <div class="panel">
+        <h2 class="result-title win">SECTOR CLEARED</h2>
+        <div class="result-sub">霓虹空域已恢复平静</div>
+        <div class="rank-badge" id="vic-rank">S</div>
+        <div class="score-big" id="vic-score">0</div>
+        <div class="stat-grid">
+          <div><b id="vic-kills">0</b><span>击坠</span></div>
+          <div><b id="vic-graze">0</b><span>擦弹</span></div>
+          <div><b id="vic-combo">0</b><span>最高连击</span></div>
+          <div><b id="vic-time">0:00</b><span>总耗时</span></div>
+        </div>
+        <div class="high-line">历史最高 <span id="vic-high">0</span></div>
+        <button class="btn primary" id="btn-vic-retry">再 来 一 局</button>
+        <button class="btn ghost" id="btn-vic-menu">回 主 菜 单</button>
+      </div>
+    </section>
+
+    <!-- 关卡开场 / Boss 警告（canvas 同级覆盖层） -->
+    <div id="stage-intro" class="banner hidden"><span id="stage-intro-text"></span></div>
+    <div id="boss-warning" class="banner hidden"><span>⚠ WARNING · 巨型信号接近 ⚠</span></div>
+
+    <!-- 横屏提示 -->
+    <div id="rotate-tip" class="hidden">
+      <div class="rotate-inner"><div class="rotate-icon">⟳</div><p>请旋转设备至竖屏</p></div>
+    </div>
+  </div>
+
+</body>
+</html>
